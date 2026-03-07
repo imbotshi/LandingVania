@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&family=Cinzel:wght@400;500;600;700;800;900&display=swap');
+
+/* Map Figma-exported font-family references to actual web font names */
+@font-face {
+  font-family: 'Figtree:Regular';
+  src: local('Figtree');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Figtree:Medium';
+  src: local('Figtree');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Figtree:SemiBold';
+  src: local('Figtree');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Figtree:Bold';
+  src: local('Figtree');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Cinzel:Bold';
+  src: local('Cinzel');
+  font-weight: 700;
+}
