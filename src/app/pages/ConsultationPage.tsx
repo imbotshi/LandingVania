@@ -5,6 +5,7 @@ import logotype from '../../assets/logotype.png';
 import vaniaLogo from '../../assets/vania-logo.svg';
 import bondengeImg from '../../assets/bondenge.png';
 import marbleTexture from '../../assets/128a66ed6ba78ad77c11fa74d3f2f4e3865b4906.png';
+import { supabase } from '../../lib/supabase';
 
 /* ─── Types ───────────────────────────────────────────────── */
 interface FormData {
@@ -281,6 +282,8 @@ export default function ConsultationPage() {
   const [data, setData]         = useState<FormData>({
     prenom: '', ville: '', typeBien: '', objectif: '', disponibilite: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const update = (k: keyof FormData, v: string) => setData(p => ({ ...p, [k]: v }));
 
@@ -292,7 +295,42 @@ export default function ConsultationPage() {
     return false;
   };
 
-  const next = () => { if (!ok()) return; setDir('f'); step < TOTAL - 1 ? setStep(s => s + 1) : setStep(4); };
+  const next = async () => { 
+    if (!ok()) return; 
+
+    if (step < TOTAL - 1) {
+      setDir('f');
+      setStep(s => s + 1);
+    } else {
+      // Dernière étape : envoi à Supabase
+      setIsSubmitting(true);
+      setErrorMsg('');
+      
+      try {
+        const { error } = await supabase
+          .from('consultations')
+          .insert([
+            {
+              prenom: data.prenom,
+              ville: data.ville,
+              type_bien: data.typeBien,
+              objectif: data.objectif,
+              disponibilite: data.disponibilite
+            }
+          ]);
+          
+        if (error) throw error;
+        
+        setDir('f');
+        setStep(4);
+      } catch (err: any) {
+        console.error("Erreur lors de l'envoi:", err);
+        setErrorMsg("Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer.");
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  };
   const back = () => { setDir('b'); setStep(s => Math.max(0, s - 1)); };
 
   const slides   = [<Step1 d={data} u={update} />, <Step2 d={data} u={update} />, <Step3 d={data} u={update} />, <Step4 d={data} u={update} />];
@@ -382,20 +420,33 @@ export default function ConsultationPage() {
 
                     {/* Actions */}
                     <div className="flex flex-col gap-3">
+                      {errorMsg && (
+                        <p className="text-red-500 text-[13px] text-center mb-1">{errorMsg}</p>
+                      )}
                       {/* ⑤ Shimmer button */}
                       <button
                         onClick={next}
-                        disabled={!ok()}
-                        className="btn-shimmer w-full h-[56px] rounded-[28px] font-[500] text-[16px] tracking-wide transition-all duration-300"
+                        disabled={!ok() || isSubmitting}
+                        className="btn-shimmer w-full h-[56px] rounded-[28px] font-[500] text-[16px] tracking-wide transition-all duration-300 flex items-center justify-center gap-2"
                         style={{
-                          backgroundColor: ok() ? '#1A3A1F' : 'rgba(13,26,15,0.08)',
-                          color: ok() ? '#FAF8F4' : 'rgba(13,26,15,0.3)',
-                          cursor: ok() ? 'pointer' : 'not-allowed',
+                          backgroundColor: ok() && !isSubmitting ? '#1A3A1F' : 'rgba(13,26,15,0.08)',
+                          color: ok() && !isSubmitting ? '#FAF8F4' : 'rgba(13,26,15,0.3)',
+                          cursor: ok() && !isSubmitting ? 'pointer' : 'not-allowed',
                         }}
                       >
-                        {step < TOTAL - 1 ? 'Continuer →' : 'Confirmer ma demande'}
+                        {isSubmitting ? (
+                          <>
+                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Envoi en cours...
+                          </>
+                        ) : (
+                          step < TOTAL - 1 ? 'Continuer →' : 'Confirmer ma demande'
+                        )}
                       </button>
-                      {step > 0 && (
+                      {step > 0 && !isSubmitting && (
                         <button onClick={back} className="text-center text-[13px] py-2"
                           style={{ color: 'rgba(13,26,15,0.38)' }}>← Retour</button>
                       )}
