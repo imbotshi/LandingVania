@@ -1,11 +1,159 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vania — Résidences d'exception</title>
+
+    <!-- ══ Primary SEO ══════════════════════════════════════════ -->
+    <title>Vania – Agence Immobilière & Gestion Locative Haut de Gamme au Cameroun</title>
+    <meta name="description" content="Vania est l'agence de référence pour la gestion et la valorisation de résidences meublées et non meublées au Cameroun. Doublez vos revenus locatifs à Douala, Yaoundé et partout au Cameroun." />
+    <meta name="keywords" content="agence immobilière Cameroun, gestion locative Douala, location meublée Cameroun, location saisonnière Douala, agence location Yaoundé, valorisation bien immobilier, propriétaire Douala" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://vania-residence.com/" />
+
+    <!-- ══ Open Graph (WhatsApp, Facebook, LinkedIn) ════════════ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_CM" />
+    <meta property="og:url" content="https://vania-residence.com/" />
+    <meta property="og:site_name" content="Vania" />
+    <meta property="og:title" content="Vania – L'agence immobilière haut de gamme au Cameroun" />
+    <meta property="og:description" content="Confiez votre résidence à Vania et accédez à une clientèle internationale de locataires exigeants. Gestion locative professionnelle à Douala, Yaoundé et au Cameroun." />
+    <meta property="og:image" content="https://vania-residence.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Vania – Résidences d'exception au Cameroun" />
+
+    <!-- ══ Twitter Card ═════════════════════════════════════════ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vania – L'agence immobilière haut de gamme au Cameroun" />
+    <meta name="twitter:description" content="Valorisez votre bien immobilier avec Vania. Gestion locative haut de gamme à Douala, Yaoundé et partout au Cameroun." />
+    <meta name="twitter:image" content="https://vania-residence.com/og-image.jpg" />
+
+    <!-- ══ Favicon & App Icons ══════════════════════════════════ -->
+    <link rel="icon" type="image/png" href="/src/assets/icone.png" />
+    <link rel="apple-touch-icon" href="/src/assets/icone.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1A3A1F" />
+
+    <!-- ══ Schema.org JSON-LD — RealEstateAgent + LocalBusiness ══ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["RealEstateAgent", "LocalBusiness"],
+      "name": "Vania",
+      "description": "Agence de marketing immobilier haut de gamme spécialisée dans la gestion locative de résidences meublées et non meublées au Cameroun.",
+      "url": "https://vania-residence.com",
+      "telephone": "+237690536012",
+      "email": "contact@vania-residence.com",
+      "logo": "https://vania-residence.com/src/assets/icone.png",
+      "image": "https://vania-residence.com/og-image.jpg",
+      "priceRange": "€€€",
+      "currenciesAccepted": "XAF",
+      "paymentAccepted": "Mobile Money, Virement bancaire",
+      "areaServed": [
+        { "@type": "City", "name": "Douala", "sameAs": "https://fr.wikipedia.org/wiki/Douala" },
+        { "@type": "City", "name": "Yaoundé", "sameAs": "https://fr.wikipedia.org/wiki/Yaound%C3%A9" },
+        { "@type": "Country", "name": "Cameroun", "sameAs": "https://fr.wikipedia.org/wiki/Cameroun" }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Douala",
+        "addressCountry": "CM"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+237690536012",
+        "contactType": "customer service",
+        "availableLanguage": ["French"],
+        "contactOption": "TollFree"
+      },
+      "sameAs": [
+        "https://www.instagram.com/vania.imo",
+        "https://www.tiktok.com/@vania.imo"
+      ],
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+        "opens": "08:00",
+        "closes": "19:00"
+      }
+    }
+    </script>
+
+    <!-- ══ Schema.org JSON-LD — FAQ Page ═══════════════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Comment confier mon appartement meublé à Vania au Cameroun ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Il vous suffit de demander une consultation privée de 20 minutes via notre formulaire. Notre équipe prend contact pour évaluer votre résidence et vous proposer un plan de valorisation adapté."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Vania propose-t-elle la gestion locative de maisons non meublées ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. Vania accompagne aussi bien les propriétaires de logements non meublés que meublés. Nous établissons un plan de mise en valeur, de contenu et de distribution adapté à chaque type de bien."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Dans quelles villes Vania opère-t-elle au Cameroun ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vania est active principalement à Douala et Yaoundé, mais accompagne aussi des propriétaires dans d'autres villes du Cameroun. Contactez-nous pour vérifier la disponibilité dans votre zone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Combien coûte la gestion locative avec Vania ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le coût dépend de votre bien et de vos objectifs. Vania propose un premier entretien gratuit et confidentiel pour vous présenter une offre tailor-made sans engagement."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- ══ Schema.org JSON-LD — Review + AggregateRating ═════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Vania",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "27",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Claude Tchinda" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "L'indice de différenciation m'a montré à quel point mon bien ressemblait à tous les autres. Après le travail avec Vania, mes demandes sont plus qualifiées.",
+          "datePublished": "2025-11-15"
+        }
+      ]
+    }
+    </script>
+
+    <!-- ══ Performance — Preload critical font ══════════════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Pacifico&display=swap"
+    />
+    <!-- ══ Google Fonts ═════════════════════════════════════════ -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Pacifico&display=swap"
       rel="stylesheet"

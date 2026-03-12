@@ -69,7 +69,7 @@ export default function SolutionSection() {
       {/* Content with fade on tab change */}
       <div className="w-full max-w-[390px]">
         <div className="w-full h-[290px] rounded-[24px] overflow-hidden relative mb-8 shadow-md">
-          <img src={consultantImg} alt="Consultant" className="w-full h-full object-cover" />
+          <img src={consultantImg} alt="Consultant Vania aidant un propriétaire à valoriser son bien immobilier au Cameroun" loading="lazy" className="w-full h-full object-cover" />
         </div>
 
         <AnimatePresence mode="wait">

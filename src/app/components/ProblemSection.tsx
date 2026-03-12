@@ -91,7 +91,7 @@ export default function ProblemSection() {
               key={i}
               className="w-[260px] h-[340px] rounded-[24px] overflow-hidden relative shrink-0"
             >
-              <img src={src} alt={i % 2 === 0 ? '@rental.imo' : '@vania.imo'} className="w-full h-full object-cover" />
+              <img src={src} alt={i % 2 === 0 ? 'Profil TikTok @rental.imo — location immobilière Cameroun' : 'Profil TikTok @vania.imo — agence immobilière Douala'} loading="lazy" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
               <p className="absolute bottom-4 left-0 right-0 text-center text-white font-[700] text-[17px] tracking-tight">
                 {i % 2 === 0 ? '@rental.imo' : '@vania.imo'}

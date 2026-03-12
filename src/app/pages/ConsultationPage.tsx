@@ -6,10 +6,12 @@ import vaniaLogo from '../../assets/vania-logo.svg';
 import bondengeImg from '../../assets/bondenge.png';
 import marbleTexture from '../../assets/128a66ed6ba78ad77c11fa74d3f2f4e3865b4906.png';
 import { supabase } from '../../lib/supabase';
+import { isValidPhoneNumber, AsYouType } from 'libphonenumber-js';
 
 /* ─── Types ───────────────────────────────────────────────── */
 interface FormData {
   prenom: string;
+  telephone: string;
   ville: string;
   typeBien: string;
   objectif: string;
@@ -98,15 +100,18 @@ function StepDots({ current, total }: { current: number; total: number }) {
 }
 
 /* ─── Line input ──────────────────────────────────────────── */
-function LineInput({ value, onChange, placeholder, autoFocus }: {
+function LineInput({ value, onChange, placeholder, autoFocus, type = "text", isValid, showValidation }: {
   value: string; onChange: (v: string) => void;
   placeholder?: string; autoFocus?: boolean;
+  type?: string;
+  isValid?: boolean;
+  showValidation?: boolean;
 }) {
   const [focused, setFocused] = useState(false);
   return (
     <div className="relative w-full" style={{ filter: focused ? 'drop-shadow(0 4px 16px rgba(200,169,106,0.13))' : 'none', transition: 'filter 0.3s' }}>
       <input
-        type="text"
+        type={type}
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder ?? ''}
@@ -116,6 +121,22 @@ function LineInput({ value, onChange, placeholder, autoFocus }: {
         className="w-full bg-transparent outline-none pb-3 text-[22px] text-[#0D1A0F] placeholder-[#0D1A0F]/25"
         style={{ fontFamily: "'Figtree', sans-serif", fontWeight: 400 }}
       />
+      {showValidation && value.trim().length > 0 && (
+        <div className="absolute right-0 top-1 pointer-events-none">
+          {isValid ? (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#31920B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          ) : (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          )}
+        </div>
+      )}
       <div className="absolute bottom-0 left-0 right-0 h-[1px]" style={{ backgroundColor: 'rgba(13,26,15,0.12)' }} />
       <motion.div
         className="absolute bottom-0 left-0 h-[1.5px] origin-left"
@@ -158,13 +179,35 @@ function PillGroup({ options, value, onChange }: {
 
 /* ─── Steps ───────────────────────────────────────────────── */
 function Step1({ d, u }: { d: FormData; u: (k: keyof FormData, v: string) => void }) {
+  const handlePhoneChange = (val: string) => {
+    // Format during typing
+    const formatted = new AsYouType().input(val);
+    u('telephone', formatted);
+  };
+  
+  const isPhoneValid = d.telephone ? isValidPhoneNumber(d.telephone) : false;
+
   return (
-    <div>
-      <h2 className="text-[30px] leading-[1.2] text-[#0D1A0F] mb-8"
+    <div className="flex flex-col gap-5">
+      <h2 className="text-[30px] leading-[1.2] text-[#0D1A0F] mb-3"
         style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 600, fontStyle: 'italic' }}>
-        Quel est votre prénom ?
+        Comment pouvons-nous vous joindre ?
       </h2>
       <LineInput value={d.prenom} onChange={v => u('prenom', v)} placeholder="Votre prénom" autoFocus />
+      
+      <div className="mt-2">
+        <LineInput 
+          value={d.telephone} 
+          onChange={handlePhoneChange} 
+          placeholder="Téléphone (ex: +237 6 90 53 60 12)" 
+          type="tel"
+          showValidation={true}
+          isValid={isPhoneValid}
+        />
+        {d.telephone.length > 0 && !isPhoneValid && (
+          <p className="text-[#EF4444] text-[12px] mt-2 absolute">Format invalide (n'oubliez pas l'indicatif)</p>
+        )}
+      </div>
     </div>
   );
 }
@@ -280,7 +323,7 @@ export default function ConsultationPage() {
   const [step, setStep]         = useState(0);
   const [dir, setDir]           = useState<'f' | 'b'>('f');
   const [data, setData]         = useState<FormData>({
-    prenom: '', ville: '', typeBien: '', objectif: '', disponibilite: '',
+    prenom: '', telephone: '', ville: '', typeBien: '', objectif: '', disponibilite: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -288,7 +331,7 @@ export default function ConsultationPage() {
   const update = (k: keyof FormData, v: string) => setData(p => ({ ...p, [k]: v }));
 
   const ok = () => {
-    if (step === 0) return data.prenom.trim().length > 0;
+    if (step === 0) return data.prenom.trim().length > 0 && (data.telephone ? isValidPhoneNumber(data.telephone) : false);
     if (step === 1) return data.ville.trim().length > 0;
     if (step === 2) return data.objectif !== '';
     if (step === 3) return data.disponibilite !== '';
@@ -312,6 +355,7 @@ export default function ConsultationPage() {
           .insert([
             {
               prenom: data.prenom,
+              telephone: data.telephone,
               ville: data.ville,
               type_bien: data.typeBien,
               objectif: data.objectif,

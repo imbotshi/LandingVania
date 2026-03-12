@@ -64,14 +64,14 @@ export default function App() {
         <HeroSection />
       </div>
 
-      <main className="w-full">
-        <ProblemSection />
-        <div id="services"><SolutionSection /></div>
-        <Solution2Section />
-        <div id="processus"><ProcessSection /></div>
-        <div id="portfolio"><PortfolioSection /></div>
-        <div id="trust"><TrustSection /></div>
-        <div id="contact"><ContactCtaSection /></div>
+      <main className="w-full" role="main">
+        <section aria-label="Le problème des propriétaires"><ProblemSection /></section>
+        <section id="services" aria-label="Nos services de gestion locative"><SolutionSection /></section>
+        <section aria-label="Notre méthode complète"><Solution2Section /></section>
+        <section id="processus" aria-label="Notre processus d'accompagnement"><ProcessSection /></section>
+        <section id="portfolio" aria-label="Portfolio de résidences"><PortfolioSection /></section>
+        <section id="trust" aria-label="Avis et témoignages propriétaires"><TrustSection /></section>
+        <section id="contact" aria-label="Demander une consultation privée"><ContactCtaSection /></section>
         <FooterSection />
       </main>
     </div>

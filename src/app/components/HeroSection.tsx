@@ -65,7 +65,7 @@ function StackedDeck() {
           }
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         >
-          <img src={src} alt="Résidence Vania" className="w-full h-full object-cover" />
+          <img src={src} alt={`Résidence haut de gamme Vania — location meuble Douala Cameroun ${id + 1}`} className="w-full h-full object-cover" />
         </motion.div>
       ))}
     </div>
