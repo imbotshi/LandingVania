@@ -123,7 +123,7 @@ export default function HeroSection() {
             className="text-[50px] lg:text-[64px] xl:text-[72px] leading-[1.02] text-center lg:text-left tracking-[-0.01em] mb-5 text-[#0D1A0F]"
             style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700 }}
           >
-            Votre plateforme<br />
+            Votre société immobilière<br />
             mérite d'être <em style={{ fontStyle: 'italic', fontWeight: 400 }}>vue,</em><br />
             choisie, désirée.
           </h1>
