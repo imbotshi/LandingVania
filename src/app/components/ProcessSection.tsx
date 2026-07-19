@@ -2,32 +2,34 @@ import React from 'react';
 import FadeIn from './FadeIn';
 
 /**
- * ProcessSection — Timeline 4 étapes.
- * Répond à la recommandation luxe : rassurance procédurale.
- * Format : numéro + titre + description, empilés verticalement avec
- * un filet or reliant les étapes (Mobbin-style timeline).
+ * ProcessSection v2 — Timeline 4 étapes avec durées estimées.
+ * Rassurance procédurale pour les prospects B2B.
  */
 
 const steps = [
   {
     num: '01',
-    title: 'Diagnostic confidentiel',
-    desc: 'Un entretien de 20 minutes pour comprendre votre résidence, vos objectifs et votre positionnement actuel.',
+    title: 'Consultation découverte',
+    duration: '20 minutes',
+    desc: 'Un entretien gratuit pour comprendre votre activité, vos objectifs et votre positionnement actuel sur le marché.',
   },
   {
     num: '02',
     title: 'Proposition sur mesure',
-    desc: 'Un plan d\'action personnalisé : identité de marque, stratégie de contenu, canaux de distribution recommandés.',
+    duration: '3–5 jours',
+    desc: 'Un plan d\'action personnalisé : identité de marque, stratégie de contenu, canaux de distribution recommandés et budget estimé.',
   },
   {
     num: '03',
-    title: 'Activation de la marque',
-    desc: 'Déploiement de l\'identité visuelle, création des contenus et mise en place de la présence digitale.',
+    title: 'Activation de la stratégie',
+    duration: '2–4 semaines',
+    desc: 'Déploiement de l\'identité visuelle, création des contenus et mise en place de la présence digitale sur vos canaux.',
   },
   {
     num: '04',
-    title: 'Suivi & reporting',
-    desc: 'Tableau de bord mensuel, analyse des performances et ajustements continus pour maximiser les revenus.',
+    title: 'Suivi & reporting mensuel',
+    duration: 'En continu',
+    desc: 'Tableau de bord mensuel, analyse des performances et ajustements continus pour maximiser votre visibilité et vos leads.',
   },
 ];
 
@@ -36,6 +38,8 @@ export default function ProcessSection() {
     <section
       className="relative w-full py-20 px-6 flex flex-col"
       style={{ backgroundColor: '#FAF8F4' }}
+      id="processus"
+      aria-label="Notre processus d'accompagnement"
     >
       {/* Header */}
       <FadeIn className="mb-14">
@@ -83,6 +87,13 @@ export default function ProcessSection() {
 
               {/* Content */}
               <div className="pt-[6px]">
+                {/* Duration badge */}
+                <span
+                  className="inline-block px-2 py-[2px] rounded-full text-[10px] font-[600] uppercase tracking-[0.1em] mb-2"
+                  style={{ backgroundColor: 'rgba(200,169,106,0.15)', color: '#C8A96A' }}
+                >
+                  {step.duration}
+                </span>
                 <h3
                   className="text-[20px] mb-2 text-[#0D1A0F]"
                   style={{

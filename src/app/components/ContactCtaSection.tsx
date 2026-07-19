@@ -10,25 +10,27 @@ export default function ContactCtaSection() {
     <section
       className="relative w-full py-24 px-5 flex flex-col items-center"
       style={{ backgroundColor: '#FAF8F4' }}
+      id="contact"
+      aria-label="Demander un diagnostic gratuit"
     >
-      {/* ✅ H2 en Playfair Display — luxe */}
+      {/* Header */}
       <FadeIn>
         <h2
           className="text-[44px] leading-[1.05] text-center mb-4 text-[#0D1A0F]"
           style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700 }}
         >
-          Une résidence d'exception<br />
-          <em style={{ fontWeight: 400, fontStyle: 'italic' }}>mérite d'être perçue comme telle.</em>
+          Prêt à transformer<br />
+          <em style={{ fontWeight: 400, fontStyle: 'italic' }}>votre présence digitale ?</em>
         </h2>
       </FadeIn>
 
       <FadeIn delay={0.08}>
         <p className="text-[16px] text-[#0D1A0F]/60 leading-[1.6] text-center max-w-[320px] mb-14">
-          Notre approche commence par un échange confidentiel de 20 minutes pour comprendre votre résidence, vos objectifs et votre positionnement.
+          Notre approche commence par un échange découverte de 20 minutes — gratuit, sans engagement. Nous analysons votre situation et vous proposons un plan d'action sur mesure.
         </p>
       </FadeIn>
 
-      {/* Card — dark forest green (luxe) */}
+      {/* Card principale */}
       <FadeIn delay={0.14} className="w-full max-w-[390px]">
         <div
           className="w-full rounded-[32px] px-6 pt-7 pb-7 relative overflow-hidden flex flex-col"
@@ -60,19 +62,18 @@ export default function ContactCtaSection() {
               color: '#F5EFE6',
             }}
           >
-            Arrêtez de subir<br />les intermédiaires.
+            Gagnez en visibilité.<br />Gagnez en crédibilité.
           </p>
 
           <p className="text-[15px] font-[400] leading-[1.6] mb-8 relative z-10" style={{ color: '#F5EFE6CC' }}>
-            Vania positionne votre résidence comme une marque forte, 
-            autonome et désirable — sans dépendre des OTAs.
+            Vania positionne votre plateforme ou votre agence comme une marque forte, autonome et désirable — avec des stratégies marketing sur mesure.
           </p>
 
           {/* Founder portrait */}
-          <div className="relative mb-7 z-10 w-full h-[340px] rounded-[24px] overflow-hidden">
+          <div className="relative mb-7 z-10 w-full h-[320px] rounded-[24px] overflow-hidden">
             <img
               src={bondengeImg}
-              alt="Bondenge Imbotshi"
+              alt="Bondenge Imbotshi — Fondateur de Vania Studio Marketing"
               className="absolute inset-0 w-full h-full object-cover grayscale object-top"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
@@ -84,12 +85,12 @@ export default function ContactCtaSection() {
                 Bondenge Imbotshi
               </h3>
               <p className="text-[13px] font-[400] tracking-wider" style={{ color: '#C8A96A' }}>
-                Fondateur — Vania
+                Fondateur — Vania Studio Marketing
               </p>
             </div>
           </div>
 
-          {/* CTA Button — champagne gold */}
+          {/* CTA primaire */}
           <Link to="/consultation" className="w-full">
             <motion.button
               className="w-full h-[60px] rounded-[30px] font-[500] text-[17px] tracking-wide relative z-10"
@@ -98,13 +99,38 @@ export default function ContactCtaSection() {
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.25 }}
             >
-              Demander un entretien de découverte
+              Obtenir mon diagnostic gratuit
             </motion.button>
           </Link>
 
-          {/* WhatsApp secondary */}
-          <p className="text-center text-[13px] mt-5 relative z-10" style={{ color: '#F5EFE680' }}>
-            ou écrivez-nous directement
+          {/* Micro-CTAs B2B segmentés */}
+          <div className="flex flex-col gap-2 mt-5 relative z-10">
+            <p className="text-center text-[12px]" style={{ color: 'rgba(245,239,230,0.45)' }}>
+              Vous êtes une plateforme OTA ?{' '}
+              <a href="#segments" className="underline" style={{ color: '#C8A96A' }}>
+                Voir l'offre OTAs →
+              </a>
+            </p>
+            <p className="text-center text-[12px]" style={{ color: 'rgba(245,239,230,0.45)' }}>
+              Vous êtes un agent indépendant ?{' '}
+              <a href="#segments" className="underline" style={{ color: '#C8A96A' }}>
+                Voir l'offre agents →
+              </a>
+            </p>
+          </div>
+
+          {/* WhatsApp link */}
+          <p className="text-center text-[12px] mt-5 relative z-10" style={{ color: 'rgba(245,239,230,0.45)' }}>
+            ou écrivez-nous sur{' '}
+            <a
+              href="https://wa.me/237690536012"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+              style={{ color: '#C8A96A' }}
+            >
+              WhatsApp
+            </a>
           </p>
         </div>
       </FadeIn>

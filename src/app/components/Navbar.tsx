@@ -11,11 +11,10 @@ import logotype from '../../assets/logotype.png';
 
 // Navigation links
 const NAV_LINKS = [
-  { label: 'Nos résidences',    href: '#portfolio' },
-  { label: 'Notre méthode',     href: '#processus' },
-  { label: 'Services',          href: '#services'  },
-  { label: 'Résultats',         href: '#trust'     },
-  { label: 'Nous contacter',    href: '#contact'   },
+  { label: 'Services',       href: '#services'  },
+  { label: 'Témoignages',    href: '#trust'     },
+  { label: 'Portfolio',      href: '#portfolio' },
+  { label: 'Contact',        href: '#contact'   },
 ];
 
 // Stagger variants for menu links
@@ -89,9 +88,35 @@ export default function Navbar() {
             <img src={logotype} alt="Vania" className="h-[28px] object-contain" />
           </div>
 
-          {/* Hamburger / Close button */}
+          {/* Desktop links — hidden on mobile */}
+          <nav className="hidden md:flex items-center gap-7">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-[13px] font-[500] text-[#0D1A0F]/70 hover:text-[#0D1A0F] relative group transition-colors duration-200"
+              >
+                {link.label}
+                <span
+                  className="absolute -bottom-[3px] left-0 h-[1.5px] w-0 group-hover:w-full transition-all duration-300"
+                  style={{ backgroundColor: '#C8A96A' }}
+                />
+              </a>
+            ))}
+          </nav>
+
+          {/* Desktop CTA — hidden on mobile */}
+          <a
+            href="#contact"
+            className="hidden md:flex items-center h-[38px] px-5 rounded-full text-[13px] font-[600] text-[#FAF8F4] transition-all duration-200 hover:brightness-110 active:scale-95"
+            style={{ backgroundColor: '#1A3A1F' }}
+          >
+            Prendre rendez-vous
+          </a>
+
+          {/* Hamburger / Close button — hidden on desktop */}
           <button
-            className="flex flex-col items-center justify-center w-[48px] h-[48px] rounded-full gap-[6px] transition-transform active:scale-95"
+            className="flex md:hidden flex-col items-center justify-center w-[48px] h-[48px] rounded-full gap-[6px] transition-transform active:scale-95"
             style={{ WebkitTapHighlightColor: 'transparent' }}
             aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             onClick={() => setMenuOpen(o => !o)}
@@ -169,7 +194,7 @@ export default function Navbar() {
               className="flex flex-col gap-3"
             >
               <a
-                href="https://wa.me/243899428027"
+                href="https://wa.me/237690536012"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 px-5 h-[56px] rounded-[28px] text-white font-[500] text-[16px]"

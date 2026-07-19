@@ -2,9 +2,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
+import SegmentsSection from "./components/SegmentsSection";
 import ProblemSection from "./components/ProblemSection";
 import SolutionSection from "./components/SolutionSection";
-import Solution2Section from "./components/Solution2Section";
 import ProcessSection from "./components/ProcessSection";
 import PortfolioSection from "./components/PortfolioSection";
 import TrustSection from "./components/TrustSection";
@@ -23,7 +23,7 @@ function WhatsAppFAB() {
     <AnimatePresence>
       {visible && (
         <motion.a
-          href="https://wa.me/243899428027"
+          href="https://wa.me/237690536012"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-6 right-5 z-50 w-[58px] h-[58px] rounded-full flex items-center justify-center shadow-lg"
@@ -36,7 +36,6 @@ function WhatsAppFAB() {
           transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           aria-label="Nous écrire sur WhatsApp"
         >
-          {/* Pulse ring */}
           <motion.span
             className="absolute inset-0 rounded-full"
             style={{ backgroundColor: '#25D366', opacity: 0.35 }}
@@ -52,26 +51,49 @@ function WhatsAppFAB() {
   );
 }
 
+/**
+ * App — Landing page Vania Studio Marketing (route "/")
+ * Le routing est géré dans main.tsx (BrowserRouter + Routes)
+ */
 export default function App() {
   return (
     <div className="w-full min-h-dvh font-['Figtree',sans-serif]" style={{ backgroundColor: '#FAF8F4' }}>
-      {/* Floating WhatsApp button — appears after 600px scroll */}
       <WhatsAppFAB />
 
-      {/* Hero wrapper */}
       <div className="relative w-full">
         <Navbar />
         <HeroSection />
       </div>
 
       <main className="w-full" role="main">
-        <section aria-label="Le problème des propriétaires"><ProblemSection /></section>
-        <section id="services" aria-label="Nos services de gestion locative"><SolutionSection /></section>
-        <section aria-label="Notre méthode complète"><Solution2Section /></section>
-        <section id="processus" aria-label="Notre processus d'accompagnement"><ProcessSection /></section>
-        <section id="portfolio" aria-label="Portfolio de résidences"><PortfolioSection /></section>
-        <section id="trust" aria-label="Avis et témoignages propriétaires"><TrustSection /></section>
-        <section id="contact" aria-label="Demander une consultation privée"><ContactCtaSection /></section>
+        <section id="segments" aria-label="Nos segments clients">
+          <SegmentsSection />
+        </section>
+
+        <section aria-label="Les défis du marketing immobilier en Afrique">
+          <ProblemSection />
+        </section>
+
+        <section id="services" aria-label="Nos services de marketing immobilier">
+          <SolutionSection />
+        </section>
+
+        <section id="processus" aria-label="Notre processus d'accompagnement">
+          <ProcessSection />
+        </section>
+
+        <section id="portfolio" aria-label="Portfolio de résidences et campagnes">
+          <PortfolioSection />
+        </section>
+
+        <section id="trust" aria-label="Résultats et témoignages clients">
+          <TrustSection />
+        </section>
+
+        <section id="contact" aria-label="Demander un diagnostic gratuit">
+          <ContactCtaSection />
+        </section>
+
         <FooterSection />
       </main>
     </div>

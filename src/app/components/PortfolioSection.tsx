@@ -23,8 +23,9 @@ const properties = [
 export default function PortfolioSection() {
   return (
     <section
-      className="relative w-full pt-20 pb-16 px-5 flex flex-col"
+      className="relative w-full pt-20 pb-16 px-5 lg:px-16 xl:px-24 flex flex-col"
       style={{ backgroundColor: '#0D1A0F' }}
+      id="portfolio"
     >
       {/* Header */}
       <FadeIn className="mb-12">
@@ -57,11 +58,11 @@ export default function PortfolioSection() {
               className="block"
             >
               <motion.div
-                className="relative w-full h-[380px] rounded-[28px] overflow-hidden"
+                className="relative w-full h-[380px] lg:h-[520px] rounded-[28px] overflow-hidden group"
                 whileHover={{ scale: 1.01 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               >
-                <img src={p.img} alt={p.name} className="w-full h-full object-cover" />
+                <img src={p.img} alt={p.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
 
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />

@@ -1,19 +1,38 @@
 import React from 'react';
 import FadeIn from './FadeIn';
 import claudeImg from '../../assets/claude.png';
+import nicoImg from '../../assets/Nico.PNG';
 
 /**
- * TrustSection — Signaux de confiance pour le segment luxe.
- * 1. Indicateurs clés (chiffres percutants).
- * 2. Citation d'un propriétaire (photo + texte + nom).
- *
- * Rappel recommandation : dans le luxe, la preuve par les pairs est critique.
+ * TrustSection v2 — Enrichie
+ * 1. Stats contextualisées (4 métriques)
+ * 2. Deux témoignages : Claude Tchinda + Fondateur Mynovas
+ * 3. Format carousel horizontal (scroll natif mobile)
  */
 
 const stats = [
-  { value: '89%',   label: 'de renouvellement annuel' },
-  { value: '3×',    label: 'meilleure visibilité OTA' },
-  { value: '20min', label: "d'entretien pour démarrer" },
+  { value: '+37%',  label: 'de visibilité moyenne en 60 jours' },
+  { value: '3×',    label: 'plus de demandes qualifiées en 90j' },
+  { value: '4.9★',  label: 'de satisfaction client (27 avis)' },
+  { value: '89%',   label: 'de renouvellement des partenariats' },
+];
+
+const testimonials = [
+  {
+    quote: 'Vania a transformé la manière dont notre plateforme est perçue. En 3 mois, Mynovas a gagné en visibilité et en notoriété sur le marché camerounais — les propriétaires nous contactent désormais directement.',
+    name: 'Nico Ludovick Ngnitedem',
+    role: 'Fondateur — Mynovas',
+    url: 'https://www.mynovase.com',
+    img: nicoImg,
+    initials: 'NN',
+  },
+  {
+    quote: 'Après le travail avec Vania, mes demandes sont plus qualifiées. L\'indice de différenciation m\'a montré à quel point mon bien ressemblait à tous les autres. Aujourd\'hui c\'est terminé.',
+    name: 'Claude Tchinda',
+    role: 'Propriétaire · Douala',
+    img: claudeImg,
+    initials: 'CT',
+  },
 ];
 
 export default function TrustSection() {
@@ -21,8 +40,10 @@ export default function TrustSection() {
     <section
       className="relative w-full py-20 px-6 flex flex-col items-center"
       style={{ backgroundColor: '#1A3A1F' }}
+      id="trust"
+      aria-label="Résultats et témoignages"
     >
-      {/* Gold filet */}
+      {/* Header */}
       <FadeIn className="w-full flex flex-col items-center mb-14">
         <div className="w-10 h-[1px] mb-6" style={{ backgroundColor: '#C8A96A' }} />
         <p className="text-[12px] uppercase tracking-[0.16em] mb-3" style={{ color: '#C8A96A' }}>
@@ -41,13 +62,13 @@ export default function TrustSection() {
         </h2>
       </FadeIn>
 
-      {/* Stats row */}
+      {/* Stats — 2×2 grid */}
       <FadeIn delay={0.08} className="w-full mb-14">
-        <div className="flex justify-around w-full">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 w-full">
           {stats.map((s, i) => (
-            <div key={i} className="flex flex-col items-center gap-1">
+            <div key={i} className="flex flex-col items-center gap-1 text-center">
               <span
-                className="text-[36px] leading-none"
+                className="text-[32px] leading-none"
                 style={{
                   fontFamily: "'Playfair Display', Georgia, serif",
                   fontWeight: 700,
@@ -56,7 +77,10 @@ export default function TrustSection() {
               >
                 {s.value}
               </span>
-              <span className="text-[12px] text-center leading-[1.4] font-[400]" style={{ color: '#FAF8F4AA', maxWidth: 80 }}>
+              <span
+                className="text-[12px] leading-[1.4] font-[400] text-center"
+                style={{ color: 'rgba(250,248,244,0.65)', maxWidth: 110 }}
+              >
                 {s.label}
               </span>
             </div>
@@ -67,45 +91,111 @@ export default function TrustSection() {
       {/* Divider */}
       <div className="w-full h-[1px] mb-14" style={{ backgroundColor: 'rgba(200,169,106,0.2)' }} />
 
-      {/* Testimonial quote */}
-      <FadeIn delay={0.14} className="w-full max-w-[390px]">
-        {/* Quote mark */}
+      {/* Testimonials — scroll horizontal */}
+      <FadeIn delay={0.14} className="w-full">
         <p
-          className="text-[64px] leading-none mb-2"
-          style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
-            color: '#C8A96A',
-            opacity: 0.5,
-          }}
+          className="text-[12px] uppercase tracking-[0.16em] mb-8"
+          style={{ color: 'rgba(200,169,106,0.7)' }}
         >
-          "
-        </p>
-        <p
-          className="text-[20px] leading-[1.55] mb-8"
-          style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
-            fontStyle: 'italic',
-            fontWeight: 400,
-            color: '#FAF8F4',
-          }}
-        >
-          Vania a transformé la manière dont ma résidence est perçue. En 3 mois, j'ai arrêté de dépendre d'Airbnb et mes locataires viennent désormais directement.
+          Ce qu'ils disent
         </p>
 
-        {/* Client identity */}
-        <div className="flex items-center gap-4">
-          <img
-            src={claudeImg}
-            alt="Claude Tchinda"
-            className="w-14 h-14 rounded-full object-cover"
-            style={{ filter: 'grayscale(30%)' }}
-          />
-          <div>
-            <p className="text-[16px] font-[600]" style={{ color: '#FAF8F4' }}>Claude Tchinda</p>
-            <p className="text-[13px]" style={{ color: '#C8A96A' }}>
-              Propriétaire · Kinshasa
-            </p>
-          </div>
+        <div
+          className="flex lg:grid lg:grid-cols-2 gap-5 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 w-full"
+          style={{
+            scrollSnapType: 'x mandatory',
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+          }}
+        >
+          {testimonials.map((t, i) => (
+            <div
+              key={i}
+              className="shrink-0 w-[85vw] lg:w-auto max-w-[340px] lg:max-w-none rounded-[24px] p-6 flex flex-col gap-5"
+              style={{
+                scrollSnapAlign: 'start',
+                backgroundColor: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(200,169,106,0.18)',
+              }}
+            >
+              {/* Quote mark */}
+              <p
+                className="text-[52px] leading-none"
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  color: '#C8A96A',
+                  opacity: 0.5,
+                }}
+              >
+                "
+              </p>
+
+              {/* Quote */}
+              <p
+                className="text-[16px] leading-[1.6] flex-1"
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontStyle: 'italic',
+                  fontWeight: 400,
+                  color: '#FAF8F4',
+                }}
+              >
+                {t.quote}
+              </p>
+
+              {/* Source link Mynovas */}
+              {t.url && (
+                <a
+                  href={t.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] uppercase tracking-wide"
+                  style={{ color: '#C8A96A' }}
+                >
+                  {t.url.replace('https://', '')} ↗
+                </a>
+              )}
+
+              {/* Identity */}
+              <div className="flex items-center gap-3 pt-2" style={{ borderTop: '1px solid rgba(200,169,106,0.18)' }}>
+                {t.img ? (
+                  <img
+                    src={t.img}
+                    alt={t.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                    style={{ filter: 'grayscale(30%)' }}
+                  />
+                ) : (
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: 'rgba(200,169,106,0.2)', color: '#C8A96A' }}
+                  >
+                    <span className="text-[14px] font-[700]">{t.initials}</span>
+                  </div>
+                )}
+                <div>
+                  <p className="text-[15px] font-[600]" style={{ color: '#FAF8F4' }}>{t.name}</p>
+                  <p className="text-[12px]" style={{ color: '#C8A96A' }}>{t.role}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Scroll indicator dots */}
+        <div className="flex justify-center gap-2 mt-5">
+          {testimonials.map((_, i) => (
+            <div
+              key={i}
+              className="rounded-full"
+              style={{
+                width: i === 0 ? 20 : 6,
+                height: 6,
+                backgroundColor: i === 0 ? '#C8A96A' : 'rgba(200,169,106,0.35)',
+                transition: 'all 0.3s',
+              }}
+            />
+          ))}
         </div>
       </FadeIn>
     </section>
