@@ -8,7 +8,6 @@ import { City01Icon, LocationUser03Icon, Call02Icon } from 'hugeicons-react';
 import mynovasLogo from '../../assets/Mynovas.png';
 import absLogo from '../../assets/abs.svg';
 import programactorLogo from '../../assets/programactor.svg';
-import bongoLogo from '../../assets/bongo.svg';
 import otlLogo from '../../assets/otl.svg';
 
 import img1 from '../../assets/623ab9db7687380edfa1eabf012c007d2a20d1b3.png';
@@ -268,7 +267,6 @@ export default function HeroSection() {
             <img src={otlLogo}          alt="OTL"          className="h-[24px] object-contain" />
             <img src={programactorLogo} alt="Programactor" className="h-[24px] object-contain" />
             <img src={absLogo}          alt="ABS"          className="h-[24px] object-contain" />
-            <img src={bongoLogo}        alt="Bongo"        className="h-[24px] object-contain" />
           </div>
         </FadeIn>
       </div>
