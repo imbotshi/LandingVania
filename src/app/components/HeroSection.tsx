@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 
 import textureBg from '../../assets/128a66ed6ba78ad77c11fa74d3f2f4e3865b4906.png';
 import { City01Icon, LocationUser03Icon, Call02Icon } from 'hugeicons-react';
+import mynovasLogo from '../../assets/Mynovas.png';
 import absLogo from '../../assets/abs.svg';
 import programactorLogo from '../../assets/programactor.svg';
 import bongoLogo from '../../assets/bongo.svg';
@@ -56,32 +57,101 @@ function ShowcaseStrip({ className }: { className?: string }) {
   );
 }
 
-/** Desktop showcase: 3 images stacked vertically with parallax sizes */
+/**
+ * Desktop showcase: 3 images en colonne + badges métriques flottants glassmorphiques.
+ * Les badges apparaissent en surimpression avec des entrées décalées pour prouver
+ * immédiatement l'impact de Vania auprès des cibles B2B.
+ */
+
+const METRIC_BADGES = [
+  {
+    /** Positionné en bas-gauche de l'image gauche */
+    anchor: 0,
+    position: 'bottom-4 left-[-24px]',
+    icon: '📈',
+    value: '+37%',
+    label: 'visibilité en 60 jours',
+    delay: 0.55,
+  },
+  {
+    /** Positionné en haut-droite de l'image centrale (principale) */
+    anchor: 1,
+    position: 'top-6 right-[-28px]',
+    icon: '🏠',
+    value: 'Résidence KGL',
+    label: 'Douala · Cameroun',
+    delay: 0.7,
+  },
+  {
+    /** Positionné en bas-droite de l'image droite */
+    anchor: 2,
+    position: 'bottom-4 right-[-24px]',
+    icon: '✦',
+    value: 'OTAs & Agences',
+    label: 'accompagnés',
+    delay: 0.85,
+  },
+];
+
 function ShowcaseDesktop() {
   const sizes = [
-    { w: 260, h: 320, mt: 0, opacity: 0.7 },
-    { w: 310, h: 400, mt: -40, opacity: 1 },
-    { w: 260, h: 320, mt: 0, opacity: 0.7 },
+    { w: 250, h: 320, mt: 0,   opacity: 0.75 },
+    { w: 300, h: 400, mt: -40, opacity: 1    },
+    { w: 250, h: 320, mt: 0,   opacity: 0.75 },
   ];
+
   return (
-    <div className="hidden lg:flex items-end gap-4 justify-center shrink-0">
-      {SHOWCASE.map((src, i) => (
-        <motion.div
-          key={i}
-          className="rounded-[24px] overflow-hidden shadow-xl"
-          style={{ width: sizes[i].w, height: sizes[i].h, marginTop: sizes[i].mt, opacity: sizes[i].opacity }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: sizes[i].opacity, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-          whileHover={{ scale: 1.03, opacity: 1 }}
-        >
-          <img
-            src={src}
-            alt={`Portfolio Vania — ${i + 1}`}
-            className="w-full h-full object-cover"
-          />
-        </motion.div>
-      ))}
+    <div className="hidden lg:flex items-end gap-5 justify-center shrink-0 relative">
+      {SHOWCASE.map((src, i) => {
+        const badge = METRIC_BADGES.find(b => b.anchor === i);
+        return (
+          <div key={i} className="relative" style={{ marginTop: sizes[i].mt }}>
+            <motion.div
+              className="rounded-[24px] overflow-hidden shadow-2xl"
+              style={{ width: sizes[i].w, height: sizes[i].h }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: sizes[i].opacity, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.03, opacity: 1 }}
+            >
+              <img
+                src={src}
+                alt={`Portfolio Vania — ${i + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+
+            {/* Floating metric badge */}
+            {badge && (
+              <motion.div
+                className={`absolute ${badge.position} z-20 flex items-center gap-2 px-3 py-2 rounded-[14px] shadow-lg whitespace-nowrap`}
+                style={{
+                  background: 'rgba(250,248,244,0.82)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(200,169,106,0.3)',
+                  boxShadow: '0 8px 32px rgba(13,26,15,0.14)',
+                }}
+                initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.5, delay: badge.delay, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <span className="text-[16px] leading-none">{badge.icon}</span>
+                <div className="flex flex-col">
+                  <span
+                    className="text-[13px] font-[700] leading-none text-[#0D1A0F]"
+                    style={{ letterSpacing: '-0.01em' }}
+                  >
+                    {badge.value}
+                  </span>
+                  <span className="text-[10px] text-[#0D1A0F]/55 leading-tight mt-[2px]">
+                    {badge.label}
+                  </span>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -194,6 +264,7 @@ export default function HeroSection() {
             Ils nous font confiance
           </p>
           <div className="flex items-center justify-center lg:justify-start gap-7 w-full flex-wrap opacity-50">
+            <img src={mynovasLogo}     alt="Mynovas"      className="h-[24px] object-contain" />
             <img src={otlLogo}          alt="OTL"          className="h-[24px] object-contain" />
             <img src={programactorLogo} alt="Programactor" className="h-[24px] object-contain" />
             <img src={absLogo}          alt="ABS"          className="h-[24px] object-contain" />

@@ -1,52 +1,70 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import logotype from '../../assets/logotype.png';
 
 /**
- * Navbar — Phase 3 :
- * ✅ 1. Glassmorphism progressif au scroll (déjà implémenté)
- * ✅ 2. Scroll depth indicator — barre or champagne fine en haut
- * ✅ 3. Full-screen menu overlay avec stagger animation
+ * Navbar — v4 Desktop-optimised
+ * ✅ 1. Glassmorphism progressif au scroll
+ * ✅ 2. Barre de progression or en haut
+ * ✅ 3. ScrollSpy — indicateur de section active animé
+ * ✅ 4. Ancres étendues : Segments + Méthode
+ * ✅ 5. CTA "Diagnostic Gratuit" mis en valeur (ring doré)
  */
 
-// Navigation links
 const NAV_LINKS = [
-  { label: 'Services',       href: '#services'  },
-  { label: 'Témoignages',    href: '#trust'     },
-  { label: 'Portfolio',      href: '#portfolio' },
-  { label: 'Contact',        href: '#contact'   },
+  { label: 'Segments',    href: '#segments'  },
+  { label: 'Services',    href: '#services'  },
+  { label: 'Méthode',     href: '#processus' },
+  { label: 'Portfolio',   href: '#portfolio' },
+  { label: 'Témoignages', href: '#trust'     },
 ];
 
-// Stagger variants for menu links
 const linkVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      delay: 0.1 + i * 0.08,
-      duration: 0.5,
-      ease: 'easeOut' as const,
-    },
+    transition: { delay: 0.1 + i * 0.08, duration: 0.5, ease: 'easeOut' as const },
   }),
   exit: (i: number) => ({
     opacity: 0,
     y: -12,
-    transition: {
-      delay: i * 0.04,
-      duration: 0.25,
-      ease: 'easeIn' as const,
-    },
+    transition: { delay: i * 0.04, duration: 0.25, ease: 'easeIn' as const },
   }),
 };
+
+/** Returns the id of the section closest to the top viewport */
+function useScrollSpy(ids: string[]): string | null {
+  const [active, setActive] = useState<string | null>(null);
+
+  const handleScroll = useCallback(() => {
+    let current: string | null = null;
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 120) current = id;
+    }
+    setActive(current);
+  }, [ids]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  return active;
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
-
-  // Gold progress bar width: 0% → 100%
   const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+
+  const sectionIds = NAV_LINKS.map(l => l.href.replace('#', ''));
+  const activeSection = useScrollSpy(sectionIds);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -54,7 +72,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -62,19 +79,19 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── Scroll depth indicator ──────────────────────────────── */}
+      {/* ── Scroll depth indicator */}
       <motion.div
         className="fixed top-0 left-0 z-[60] h-[2px] origin-left"
         style={{ width: progressWidth, backgroundColor: '#C8A96A' }}
       />
 
-      {/* ── Navbar pill ─────────────────────────────────────────── */}
+      {/* ── Navbar pill */}
       <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-3 pb-1">
         <motion.div
-          className="w-full h-[56px] rounded-[28px] flex items-center justify-between px-5 border border-white/50"
+          className="w-full max-w-[1400px] mx-auto h-[56px] rounded-[28px] flex items-center justify-between px-5 border border-white/50"
           animate={{
             backgroundColor: scrolled || menuOpen
-              ? 'rgba(250,248,244,0.95)'
+              ? 'rgba(250,248,244,0.97)'
               : 'rgba(250,248,244,0.55)',
             boxShadow: scrolled || menuOpen
               ? '0 2px 24px rgba(13,26,15,0.10)'
@@ -84,50 +101,77 @@ export default function Navbar() {
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Logo */}
-          <div className="flex items-center h-full">
-            <img src={logotype} alt="Vania" className="h-[28px] object-contain" />
+          <div className="flex items-center h-full shrink-0">
+            <a href="#" aria-label="Vania — Accueil">
+              <img src={logotype} alt="Vania" className="h-[28px] object-contain" />
+            </a>
           </div>
 
-          {/* Desktop links — hidden on mobile */}
-          <nav className="hidden md:flex items-center gap-7">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-[13px] font-[500] text-[#0D1A0F]/70 hover:text-[#0D1A0F] relative group transition-colors duration-200"
-              >
-                {link.label}
-                <span
-                  className="absolute -bottom-[3px] left-0 h-[1.5px] w-0 group-hover:w-full transition-all duration-300"
-                  style={{ backgroundColor: '#C8A96A' }}
-                />
-              </a>
-            ))}
+          {/* Desktop links */}
+          <nav className="hidden md:flex items-center gap-6" aria-label="Navigation principale">
+            {NAV_LINKS.map((link) => {
+              const sectionId = link.href.replace('#', '');
+              const isActive = activeSection === sectionId;
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="relative text-[13px] font-[500] transition-colors duration-200 group py-1"
+                  style={{ color: isActive ? '#0D1A0F' : 'rgba(13,26,15,0.55)' }}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {link.label}
+                  {/* Animated underline indicator */}
+                  <motion.span
+                    className="absolute -bottom-[3px] left-0 h-[1.5px] rounded-full"
+                    style={{ backgroundColor: '#C8A96A' }}
+                    animate={{ width: isActive ? '100%' : '0%' }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                  {/* Hover underline (non-active) */}
+                  {!isActive && (
+                    <span
+                      className="absolute -bottom-[3px] left-0 h-[1.5px] w-0 group-hover:w-full transition-all duration-300 rounded-full"
+                      style={{ backgroundColor: 'rgba(200,169,106,0.5)' }}
+                    />
+                  )}
+                </a>
+              );
+            })}
           </nav>
 
-          {/* Desktop CTA — hidden on mobile */}
+          {/* Desktop CTA — Diagnostic Gratuit (gold ring) */}
           <a
             href="#contact"
-            className="hidden md:flex items-center h-[38px] px-5 rounded-full text-[13px] font-[600] text-[#FAF8F4] transition-all duration-200 hover:brightness-110 active:scale-95"
-            style={{ backgroundColor: '#1A3A1F' }}
+            id="navbar-cta-desktop"
+            className="hidden md:flex items-center h-[38px] px-5 rounded-full text-[13px] font-[600] transition-all duration-200 relative group shrink-0"
+            style={{
+              backgroundColor: '#1A3A1F',
+              color: '#FAF8F4',
+              boxShadow: '0 0 0 0px rgba(200,169,106,0)',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 0 3px rgba(200,169,106,0.45)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 0 0 0px rgba(200,169,106,0)';
+            }}
           >
-            Prendre rendez-vous
+            Diagnostic gratuit
           </a>
 
-          {/* Hamburger / Close button — hidden on desktop */}
+          {/* Hamburger — mobile only */}
           <button
             className="flex md:hidden flex-col items-center justify-center w-[48px] h-[48px] rounded-full gap-[6px] transition-transform active:scale-95"
             style={{ WebkitTapHighlightColor: 'transparent' }}
             aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={menuOpen}
             onClick={() => setMenuOpen(o => !o)}
           >
             <motion.span
               className="block h-[1.5px] w-[22px] rounded-full origin-center"
               style={{ backgroundColor: '#0D1A0F' }}
-              animate={menuOpen
-                ? { rotate: 45, y: 5 }
-                : { rotate: 0,  y: 0 }
-              }
+              animate={menuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             />
             <motion.span
@@ -136,7 +180,7 @@ export default function Navbar() {
               initial={{ width: 14, rotate: 0, y: 0 }}
               animate={menuOpen
                 ? { width: 22, rotate: -45, y: -5 }
-                : { width: 14, rotate: 0,   y: 0 }
+                : { width: 14, rotate: 0, y: 0 }
               }
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             />
@@ -144,7 +188,7 @@ export default function Navbar() {
         </motion.div>
       </header>
 
-      {/* ── Full-screen menu overlay ─────────────────────────────── */}
+      {/* ── Full-screen mobile menu overlay */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -155,11 +199,9 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Gold filet top */}
             <div className="w-10 h-[1px] mb-10" style={{ backgroundColor: '#C8A96A' }} />
 
-            {/* Staggered nav links */}
-            <nav className="flex flex-col gap-1 mb-14">
+            <nav className="flex flex-col gap-1 mb-14" aria-label="Menu mobile">
               {NAV_LINKS.map((link, i) => (
                 <motion.a
                   key={link.href}
@@ -175,10 +217,7 @@ export default function Navbar() {
                 >
                   <span
                     className="text-[36px] leading-none text-[#0D1A0F]"
-                    style={{
-                      fontFamily: "'Playfair Display', Georgia, serif",
-                      fontWeight: 600,
-                    }}
+                    style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 600 }}
                   >
                     {link.label}
                   </span>
@@ -186,7 +225,6 @@ export default function Navbar() {
               ))}
             </nav>
 
-            {/* CTA inside menu */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0, transition: { delay: 0.55, duration: 0.45, ease: [0.16, 1, 0.3, 1] } }}
